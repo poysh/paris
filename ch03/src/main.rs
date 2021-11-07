@@ -17,7 +17,11 @@ fn main() {
 
     println!("{:?}", overflow);
 
-    control_flow_fun()
+    control_flow_fun();
+
+    run_while_true();
+
+    while_but_safe();
 }
 
 // This function return five
@@ -67,16 +71,36 @@ fn control_flow_fun() {
     println!("End count = {}", count);
 }
 
-fn return_value_loop)() {
+fn return_value_loop() {
     let mut counter = 0;
 
     let result = loop {
         counter += 1;
 
+
+        // return value after break keyword, value will be assigned to `let result =`
         if counter == 10 {
             break counter * 2;
         }
     };
 
     println!("The result is {}", result);
+}
+
+fn run_while_true() {
+    let mut index = 0;
+    let a = [10, 20, 30, 40, 50];
+
+    while index < 5 {
+        println!("Index: {}, Value: {}", index, a[index]);
+        index += 1;
+    }
+}
+
+fn while_but_safe() {
+    let a = [10,20,30,40,50];
+
+    for element in a {
+        println!("Element: {}", element);
+    }
 }
