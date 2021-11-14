@@ -2,8 +2,7 @@
 #![no_std]
 
 use co2_sensor as _; // global logger + panicking-behavior + memory layout
-use co2_sensor::scd30;
-use co2_sensor::buzzer;
+use co2_sensor::{scd30, alert, rgb_led, buzzer};
 use embedded_hal::blocking::delay::DelayMs;
 use nrf52840_hal::{
     self as hal,
@@ -13,6 +12,7 @@ use nrf52840_hal::{
     Temp, Timer,
 };
 
+// definde local altitude
 const ALTITUDE: u16 = 0_u16;
 //define local pressure
 const PRESSURE: u16 = 1025_u16;
@@ -29,6 +29,14 @@ fn main() -> ! {
     let pins = P0Parts::new(board.P0);
 
     let mut led = pins.p0_13.into_push_pull_output(Level::Low);
+
+
+    //external led 
+    let led_channel_red = pins.p0_03.degrade();
+    let led_channel_green = pins.p0_04.degrade();
+    let led_channel_blue = pins.p0_28.degrade();
+
+    let mut led_light = rgb_led::LEDColor::init(led_channel_red, led_channel_green, led_channel_blue);
 
     // configure pins p0_30 and p0_31 as floating pins
     // sda = data signal
@@ -97,6 +105,8 @@ fn main() -> ! {
                 temp,
                 humidity
             );
+
+            alert::alert(&co2, &mut led_light, &mut buzzer, &mut timer);
         }
 
         timer.delay_ms(1000_u32);
