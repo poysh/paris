@@ -57,7 +57,12 @@ fn main() -> ! {
 
     let mut sensor = scd30::SCD30::init(i2c);
 
-    let firmware_version = sensor.get_firmware_version().unwrap();
+    let firmware_version = sensor.get_firmware_version()
+    .unwrap_or_else(|error| {
+        led_light.error_blink(&mut timer);
+        panic!("Error getting firmware version: {:?}", error)
+    });
+
     defmt::println!(
         "Firmware version: {=u8}.{=u8} CRC: {=u8}",
         firmware_version[0],
@@ -106,6 +111,7 @@ fn main() -> ! {
                 humidity
             );
 
+            // TODO toggle buzzer with button
             alert::alert(&co2, &mut led_light, &mut buzzer, &mut timer);
         }
 
