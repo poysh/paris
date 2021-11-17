@@ -6,19 +6,6 @@ use co2_sensor as _; // global logger + panicking-behavior + memory layout
 // access to functionality:
 use embedded_hal::{blocking::delay::DelayMs, digital::v2::OutputPin};
 
-// access to graphics
-use embedded_graphics::{
-    egtext, 
-    fonts::{Font12x16, Font24x32, Text},
-    geometry::Point,
-    pixelcolor::BinaryColor,
-    prelude::*,
-    primitives::{Circle, Triangle},
-    style::PrimitiveStyle,
-    style::TextStyle,
-    text_style,
-};
-
 // access to waveshare display
 use epd_waveshare::{
     epd4in2::{self, Display4in2, EPD4in2},

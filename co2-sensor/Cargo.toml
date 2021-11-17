@@ -18,7 +18,9 @@ embedded-hal = "0.2.6"
 nb = "1.0.0"
 crc_all = "0.2.0"
 epd-waveshare = "0.4.0"
-embedded-graphics = "0.6.2"
+embedded-graphics = "0.6.1"
+arrayvec = {version = "0.7.2", default-features = false }
+
 
 # cargo build/run
 [profile.dev]
